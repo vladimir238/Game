@@ -1,4 +1,5 @@
 public class Merchant implements Seller {
+    Hero player;
     @Override
     public String sell(Goods goods) {
         String result = "";

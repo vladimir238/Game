@@ -34,6 +34,7 @@ public class BattleScene {
         }
         if (defenderHealth <= 0 && defender instanceof Hero) {
             System.out.println("Извините, вы пали в бою...");
+            System.out.println("GAME OVER !!!!");
             fightCallback.fightLost();
             return true;
         } else if (defenderHealth <= 0) {

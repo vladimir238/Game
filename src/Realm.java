@@ -23,6 +23,7 @@ public class Realm {
             e.printStackTrace();
         }
     }
+
     private static void command(String string) throws IOException {
 
         if (player == null) {
@@ -49,7 +50,11 @@ public class Realm {
                 commitFight();
             }
             break;
-            case "3":
+            case "3": {
+                commitFightDragon();
+            }
+            break;
+            case "4":
                 System.exit(1);
                 break;
             case "да":
@@ -63,12 +68,15 @@ public class Realm {
 
         command(br.readLine());
     }
+
     private static void printNavigation() {
         System.out.println("Куда вы хотите пойти?");
         System.out.println("1. К Торговцу");
         System.out.println("2. В темный лес");
-        System.out.println("3. Выход");
+        System.out.println("3. Сразиться с драконом");
+        System.out.println("4. Выход");
     }
+
     private static void commitFight() {
         battleScene.fight(player, createMonster(), new FightCallback() {
             @Override
@@ -84,14 +92,40 @@ public class Realm {
 
             @Override
             public void fightLost() {
-
+                System.out.println("Скелеты с гоблинами вас замочили");
+                System.exit(1);
             }
         });
     }
+
+    private static void commitFightDragon() {
+        battleScene.fight(player, createDragon(), new FightCallback() {
+            @Override
+            public void fightWin() {
+                System.out.println(String.format("%s победил! Теперь у вас %d опыта и %d золота, а также осталось %d едениц здоровья.", player.getName(), player.getXp(), player.getGold(), player.getHealthPoints()));
+                System.out.println("Желаете продолжить поход или вернуться в город? (да/нет)");
+                try {
+                    command(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void fightLost() {
+                System.out.println("Дракон вас замочил");
+
+                System.exit(1);
+            }
+        });
+    }
+
     interface FightCallback {
         void fightWin();
+
         void fightLost();
     }
+
     private static FantasyCharacter createMonster() {
 
         int random = (int) (Math.random() * 10);
@@ -111,6 +145,18 @@ public class Realm {
                 20,
                 100,
                 10
+        );
+    }
+
+    private static FantasyCharacter createDragon() {
+
+        return new Dragon(
+                "Дракон",
+                850,
+                25,
+                20,
+                300,
+                2000
         );
     }
 }

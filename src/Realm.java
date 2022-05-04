@@ -8,7 +8,7 @@ public class Realm {
     private static FantasyCharacter player = null;
 
     private static BattleScene battleScene = null;
-    //   private static Merchant merchant;
+
 
     public static void main(String[] args) {
 
@@ -133,28 +133,14 @@ public class Realm {
         });
     }
 
-    private static void merchDream() {
-        merchMenu();
-        try {
-            command(br.readLine());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private static void getFullHealth() {
-
-    }
-
 
     private static void merchMenu() {
         if (player.getGold() == 0) {
             System.out.println("Извини братан,ты пока не заработал золота");
-            //   printNavigation();
+
         } else if (player.getGold() < 20) {
             System.out.println("Золота на покупку здоровья недостаточно");
-            //    printNavigation();
+
         } else {
             System.out.println("Купить здоровье,введите зелье");
             try {

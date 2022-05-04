@@ -8,6 +8,7 @@ public class Realm {
     private static FantasyCharacter player = null;
 
     private static BattleScene battleScene = null;
+    //   private static Merchant merchant;
 
     public static void main(String[] args) {
 
@@ -38,12 +39,14 @@ public class Realm {
             System.out.println(String.format("Спасти наш мир от драконов вызвался %s! Да будет его броня крепка и бицепс кругл!", player.getName()));
 
             printNavigation();
+
         }
 
         switch (string) {
             case "1": {
-                System.out.println("Торговец еще не приехал");
-                command(br.readLine());
+                merchMenu();
+
+                printNavigation();
             }
             break;
             case "2": {
@@ -63,7 +66,16 @@ public class Realm {
             case "нет": {
                 printNavigation();
                 command(br.readLine());
+                break;
             }
+            case "зелье": {
+                player.setHealthPoints(100);
+                player.setGold(player.getGold() - 20);
+                System.out.println("Прикупил здоровья " + player.getName() + "  " + player.getHealthPoints());
+                System.out.println("Золота осталось " + player.getGold());
+                printNavigation();
+            }
+
         }
 
         command(br.readLine());
@@ -76,6 +88,7 @@ public class Realm {
         System.out.println("3. Сразиться с драконом");
         System.out.println("4. Выход");
     }
+
 
     private static void commitFight() {
         battleScene.fight(player, createMonster(), new FightCallback() {
@@ -119,6 +132,39 @@ public class Realm {
             }
         });
     }
+
+    private static void merchDream() {
+        merchMenu();
+        try {
+            command(br.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private static void getFullHealth() {
+
+    }
+
+
+    private static void merchMenu() {
+        if (player.getGold() == 0) {
+            System.out.println("Извини братан,ты пока не заработал золота");
+            //   printNavigation();
+        } else if (player.getGold() < 20) {
+            System.out.println("Золота на покупку здоровья недостаточно");
+            //    printNavigation();
+        } else {
+            System.out.println("Купить здоровье,введите зелье");
+            try {
+                command(br.readLine());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     interface FightCallback {
         void fightWin();
